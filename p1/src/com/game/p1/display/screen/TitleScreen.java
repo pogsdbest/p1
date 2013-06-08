@@ -19,7 +19,7 @@ public class TitleScreen extends DisplayScreen {
 		
 		DisplayText text = new DisplayText("POGS D BEST" , assets.getFont("uni_05_63"));
 		text.addListener(new ActorDragListener(text, this));
-		text.getFont().setScale(2);
+		text.setPosition(100, 100);
 		addActor(text);
 	}
 
