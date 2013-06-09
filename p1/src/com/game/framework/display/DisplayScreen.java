@@ -1,5 +1,8 @@
 package com.game.framework.display;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
@@ -10,13 +13,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.game.framework.utils.ActorTweenAccessor;
 
 public class DisplayScreen extends Stage implements Screen {
 
 	protected SpriteBatch batch;
 	protected OrthographicCamera camera;
-	//protected TweenManager manager;
+	protected TweenManager manager;
 	
 	//protected String name;
 	protected float width;
@@ -29,7 +34,7 @@ public class DisplayScreen extends Stage implements Screen {
 		super(width,height,true);
 		//this.name = name;
 		batch = new SpriteBatch();
-		//manager = new TweenManager();
+		manager = new TweenManager();
 		camera = new OrthographicCamera(width, height);
 		camera.position.set(width / 2, height / 2 , 0);
 		camera.zoom = 1;
@@ -46,6 +51,7 @@ public class DisplayScreen extends Stage implements Screen {
 		zoom = 1;
 		
 		font = new BitmapFont();
+		Tween.registerAccessor(Actor.class, new ActorTweenAccessor());
 	}
 	
 	@Override
@@ -89,6 +95,7 @@ public class DisplayScreen extends Stage implements Screen {
 		//manager.update(delta);
 		act(delta);
 		update(delta);
+		manager.update(delta);
 	}
 
 	protected void drawScreen(SpriteBatch batch) {
