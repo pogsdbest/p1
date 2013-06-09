@@ -21,7 +21,7 @@ public class TitleScreen extends DisplayScreen {
 		DisplayObject bg = new DisplayObject(assets.getTextureRegion("bg"));
 		addActor(bg);
 		
-		DisplayText text = new DisplayText("TANG NA MO GAGO! HAHAHAHA!" , assets.getFont("uni_05_63"));
+		DisplayText text = new DisplayText("CATUBIG <3 CYRID!" , assets.getFont("uni_05_63"));
 		text.addListener(new ActorDragListener(text, this));
 		text.setPosition(100, 100);
 		addActor(text);
