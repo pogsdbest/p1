@@ -22,7 +22,7 @@ public class TitleScreen extends DisplayScreen {
 		DisplayObject bg = new DisplayObject(assets.getTextureRegion("bg"));
 		addActor(bg);
 		
-		DisplayText text = new DisplayText("POGS D BEST" , assets.getFont("uni_05_63"));
+		DisplayText text = new DisplayText("VASH THE BEST - POGS WEAK" , assets.getFont("uni_05_63"));
 		text.addListener(new ActorDragListener(text, this));
 		text.setPosition(100, 100);
 		addActor(text);
