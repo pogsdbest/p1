@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.game.framework.manager.ResourceManager;
 import com.game.framework.utils.L;
@@ -12,7 +13,16 @@ import com.game.framework.utils.L;
 public class Assets extends ResourceManager {
 
 	private static Assets instance;
-
+	private TextureAtlas atlas;
+	
+	//load joystick
+		public TextureRegion rightArrow;
+		public TextureRegion leftArrow;
+		public TextureRegion upArrow;
+		public TextureRegion downArrow;
+	// character
+		public TextureRegion[] bomberMan;
+		
 	public static Music currentMusic;
 	
 	// singleton
@@ -34,8 +44,21 @@ public class Assets extends ResourceManager {
 		isDebug = true;
 		loadFont("data/font.fnt","data/font_00.png","uni_05_63");
 		
+		atlas = new TextureAtlas(Gdx.files.internal("data/assets.pack"));
+		
+		//load joystick
+				rightArrow = load("rightarrow");
+				leftArrow = load("leftarrow");
+				upArrow = load("uparrow");
+				downArrow = load("downarrow");
+				bomberMan = new TextureRegion[]{load("righthuman"),
+						load("lefthuman"), load("downhuman"), 
+						load("uphuman")
+				};
 	}
-	
+	private AtlasRegion load(String assetName){
+		return  atlas.findRegion(assetName);
+	}
 	private TextureRegion[] getAtlasAnimation(TextureAtlas atlas,String name,int frameCount , int startIndex , boolean format) {
 		TextureRegion[] frames = new TextureRegion[frameCount];
 		for(int i=0;i<frameCount ;i++){

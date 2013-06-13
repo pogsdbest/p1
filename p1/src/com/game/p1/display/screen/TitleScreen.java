@@ -3,10 +3,13 @@ package com.game.p1.display.screen;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Bounce;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.DisplayText;
 import com.game.framework.listeners.ActorDragListener;
+import com.game.framework.manager.ScreenManager;
 import com.game.framework.utils.ActorTweenAccessor;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Config;
@@ -36,6 +39,15 @@ public class TitleScreen extends DisplayScreen {
 		    .delay(1.0f)
 		    .repeatYoyo(2, 0.5f)
 		    .start(manager);
+		
+		bg.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// TODO Auto-generated method stub
+				ScreenManager.getInstance().setScreen(BattleField.class);
+				//super.clicked(event, x, y);
+			}
+		});
 	}
 
 }
