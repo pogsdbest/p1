@@ -1,10 +1,9 @@
 package com.game.p1.display.screen;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
-import com.game.framework.listeners.JoystickListener;
+import com.game.p1.listeners.JoystickListener;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Config;
 
