@@ -3,6 +3,7 @@ package com.game.p1;
 import com.badlogic.gdx.Game;
 import com.game.framework.manager.ScreenManager;
 import com.game.framework.utils.L;
+import com.game.p1.display.screen.BattleField;
 import com.game.p1.display.screen.TitleScreen;
 import com.game.p1.utils.Assets;
 
@@ -21,6 +22,7 @@ public class P1Main extends Game {
 		
 		ScreenManager.getInstance().initialize(this);
 		ScreenManager.getInstance().addScreen( TitleScreen.class);
+		ScreenManager.getInstance().addScreen(BattleField.class);
 		
 		
 	}
