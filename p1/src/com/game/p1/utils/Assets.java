@@ -13,15 +13,14 @@ import com.game.framework.utils.L;
 public class Assets extends ResourceManager {
 
 	private static Assets instance;
-	private TextureAtlas atlas;
+	//private TextureAtlas atlas;
 	
 	//load joystick
-		public TextureRegion rightArrow;
-		public TextureRegion leftArrow;
-		public TextureRegion upArrow;
-		public TextureRegion downArrow;
+		//public TextureRegion rightArrow;
+		//public TextureRegion upArrow;
+		//public TextureRegion downArrow;
 	// character
-		public TextureRegion[] bomberMan;
+		//public TextureRegion[] bomberMan;
 		
 	public static Music currentMusic;
 	
@@ -44,21 +43,26 @@ public class Assets extends ResourceManager {
 		isDebug = true;
 		loadFont("data/font.fnt","data/font_00.png","uni_05_63");
 		
-		atlas = new TextureAtlas(Gdx.files.internal("data/assets.pack"));
+		//loading atlas
+		//atlas = new TextureAtlas(Gdx.files.internal("data/assets.pack"));
+		loadAtlas("data/assets.pack"); //load means pre, to avoid loading too much time with black screen
+		
 		
 		//load joystick
-				rightArrow = load("rightarrow");
-				leftArrow = load("leftarrow");
-				upArrow = load("uparrow");
-				downArrow = load("downarrow");
-				bomberMan = new TextureRegion[]{load("righthuman"),
-						load("lefthuman"), load("downhuman"), 
-						load("uphuman")
-				};
+		//		rightArrow = load("rightarrow");
+		//		leftArrow = load("leftarrow");
+		//		upArrow = load("uparrow");
+		//		downArrow = load("downarrow");
+		//		bomberMan = new TextureRegion[]{load("righthuman"),
+		//				load("lefthuman"), load("downhuman"), 
+		//				load("uphuman")
+		//		};
 	}
+	/*
 	private AtlasRegion load(String assetName){
 		return  atlas.findRegion(assetName);
 	}
+	*/
 	private TextureRegion[] getAtlasAnimation(TextureAtlas atlas,String name,int frameCount , int startIndex , boolean format) {
 		TextureRegion[] frames = new TextureRegion[frameCount];
 		for(int i=0;i<frameCount ;i++){
