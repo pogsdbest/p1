@@ -74,19 +74,41 @@ public class ResourceManager implements Disposable {
 	 * 
 	 */
 	public AtlasRegion getTextureRegion(String name) {
-		return textureRegions.get(name);
+		AtlasRegion region = textureRegions.get(name);
+		if(region == null) {
+			L.e("Region "+name+" does'nt exist. pls check the image name");
+		}
+		return region;
 	}
 	
 	public Sound getSound(String name) {
-		return sounds.get(name);
+		Sound sound = sounds.get(name);
+		if(sound == null ){
+			if(sound == null) {
+				L.e("Sound "+name+" does'nt exist. pls check the Sound name");
+			}
+		}
+		return sound;
 	}
 	
 	public Music getMusic(String name) {
-		return musics.get(name);
+		Music music = musics.get(name);
+		if(music == null ){
+			if(music == null) {
+				L.e("Music "+name+" does'nt exist. pls check the Music name");
+			}
+		}
+		return music;
 	}
 	
 	public BitmapFont getFont(String name) {
-		return fonts.get(name);
+		BitmapFont font = fonts.get(name);
+		if(font == null ){
+			if(font == null) {
+				L.e("Font "+name+" does'nt exist. pls check the Font name");
+			}
+		}
+		return font;
 	}
 	
 	/*method for loading all resources one by one every update
