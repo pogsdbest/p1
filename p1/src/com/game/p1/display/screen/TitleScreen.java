@@ -3,6 +3,8 @@ package com.game.p1.display.screen;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Bounce;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.DisplayText;
@@ -21,8 +23,19 @@ public class TitleScreen extends DisplayScreen {
 		DisplayObject bg = new DisplayObject(assets.getTextureRegion("bg"));
 		addActor(bg);
 		
-		DisplayText text = new DisplayText("CATUBIG <3 CYRID!" , assets.getFont("uni_05_63"));
+		final DisplayText text = new DisplayText("" , assets.getFont("uni_05_63"));
 		text.addListener(new ActorDragListener(text, this));
+		text.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				text.setX(text.getX()+1);
+				return super.touchDown(event, x, y, pointer, button);
+			}
+			
+			
+		});
 		text.setPosition(100, 100);
 		addActor(text);
 		
