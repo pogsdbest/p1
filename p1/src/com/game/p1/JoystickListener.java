@@ -1,4 +1,4 @@
-package com.game.framework.listeners;
+package com.game.p1;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
