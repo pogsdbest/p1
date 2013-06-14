@@ -1,6 +1,6 @@
 Project P1
 
-Developers: pogs, vash
+Developer: pogs
 
 API's
 
