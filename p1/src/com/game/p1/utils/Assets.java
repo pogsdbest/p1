@@ -1,28 +1,21 @@
 package com.game.p1.utils;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.game.framework.manager.ResourceManager;
-import com.game.framework.utils.L;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-public class Assets extends ResourceManager {
+public class Assets {
 
 	private static Assets instance;
-	//private TextureAtlas atlas;
 	
-	//load joystick
-		//public TextureRegion rightArrow;
-		//public TextureRegion upArrow;
-		//public TextureRegion downArrow;
-	// character
-		//public TextureRegion[] bomberMan;
-		
 	public static Music currentMusic;
+	public AssetManager manager;
 	
 	// singleton
 	public static Assets getInstance() {
@@ -37,32 +30,28 @@ public class Assets extends ResourceManager {
 	}
 	
 	public void initialize() {
-		//load the atlas
-		String packFile = "gfx/assets.pack";
-		loadAtlas(packFile);
-		isDebug = true;
-		loadFont("data/font.fnt","data/font_00.png","uni_05_63");
 		
-		//loading atlas
-		//atlas = new TextureAtlas(Gdx.files.internal("data/assets.pack"));
-		loadAtlas("data/assets.pack"); //load means pre, to avoid loading too much time with black screen
+		//pre load assets
+		manager = new AssetManager();
 		
+		//load texture packs
+		manager.load("gfx/assets.pack",TextureAtlas.class);
+		manager.load("data/assets.pack",TextureAtlas.class);
+		//load fonts
+		manager.load("data/fonts/uni05_64.fnt",BitmapFont.class);
+		//load Sounds
 		
-		//load joystick
-		//		rightArrow = load("rightarrow");
-		//		leftArrow = load("leftarrow");
-		//		upArrow = load("uparrow");
-		//		downArrow = load("downarrow");
-		//		bomberMan = new TextureRegion[]{load("righthuman"),
-		//				load("lefthuman"), load("downhuman"), 
-		//				load("uphuman")
-		//		};
+		//load Musics
+		
+		//load maps
+		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		manager.load("data/maps/map.tmx",TiledMap.class);
 	}
-	/*
-	private AtlasRegion load(String assetName){
-		return  atlas.findRegion(assetName);
+	
+	public <T> T get(String name) {
+		return manager.get(name);
 	}
-	*/
+	
 	private TextureRegion[] getAtlasAnimation(TextureAtlas atlas,String name,int frameCount , int startIndex , boolean format) {
 		TextureRegion[] frames = new TextureRegion[frameCount];
 		for(int i=0;i<frameCount ;i++){
@@ -76,20 +65,11 @@ public class Assets extends ResourceManager {
 		}
 		return frames;
 	}
-	
+	/*
 	private TextureRegion[] getAtlasAnimation(TextureAtlas atlas,String name,int frameCount,boolean format) {
 		return getAtlasAnimation(atlas,name,frameCount,0,format);
 	}
-	
-	private Sound loadSound(String file) {
-		Sound sound = Gdx.audio.newSound(Gdx.files.internal(file));
-		
-		if(sound == null) {
-			L.e(file);
-		}
-		
-		return sound;
-	}
+	*/
 	
 	public void playMusic(Music music)
 	{
@@ -123,7 +103,7 @@ public class Assets extends ResourceManager {
 	
 	public void dispose() {
 		
-		super.dispose();
+		manager.dispose();
 	}
 	
 }

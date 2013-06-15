@@ -13,6 +13,7 @@ public class DisplayText extends Actor{
 	private SpriteBatch batch;
 	private float width;
 	private float height;
+	private boolean autoResize;
 
 	public DisplayText() {
 		this("",new BitmapFont());
@@ -28,9 +29,10 @@ public class DisplayText extends Actor{
 		super();
 		this.text = text;
 		this.font = font;
-		setWidth(font.getBounds(text).width);
-		setHeight(font.getBounds(text).height);
+		setWidth(getTextWidth());
+		setHeight(getTextHeight());
 		this.setAlignment(HAlignment.LEFT);
+		this.autoResize = true;
 		// TODO Auto-generated constructor stub
 		
 	}
@@ -39,6 +41,10 @@ public class DisplayText extends Actor{
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		// TODO Auto-generated method stub
 		this.batch = batch;
+		if(autoResize) {
+			setWidth(getTextWidth());
+			setHeight(getTextHeight());
+		}
 		font.drawWrapped(batch, text, getX(), getY() + height , width,getAlignment());
 		super.draw(batch, parentAlpha);
 	}
@@ -99,6 +105,14 @@ public class DisplayText extends Actor{
 
 	public void setAlignment(HAlignment alignment) {
 		this.alignment = alignment;
+	}
+	
+	public float getTextWidth() {
+		return font.getBounds(text).width;
+	}
+	
+	public float getTextHeight() {
+		return font.getBounds(text).height;
 	}
 
 }

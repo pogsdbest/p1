@@ -1,9 +1,11 @@
 package com.game.p1;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 import com.game.framework.manager.ScreenManager;
 import com.game.framework.utils.L;
 import com.game.p1.display.screen.BattleField;
+import com.game.p1.display.screen.LoadingScreen;
 import com.game.p1.display.screen.TitleScreen;
 import com.game.p1.utils.Assets;
 
@@ -21,25 +23,12 @@ public class P1Main extends Game {
 		//GameLevel.getInstance().loadSaveFile();
 		
 		ScreenManager.getInstance().initialize(this);
+		ScreenManager.getInstance().addScreen( LoadingScreen.class);
 		ScreenManager.getInstance().addScreen( TitleScreen.class);
-		ScreenManager.getInstance().addScreen(BattleField.class);
+		ScreenManager.getInstance().addScreen( BattleField.class);
 		
+		ScreenManager.getInstance().setScreen( LoadingScreen.class);
 		
-	}
-	
-	@Override
-	public void render() {
-		// TODO Auto-generated method stub
-		Assets assets = Assets.getInstance();
-		if(!assets.isDone()) {
-			assets.update();
-			L.wtf("loading..."+(assets.getProgress()*100)+"%");
-			if(assets.isDone()) {
-				ScreenManager.getInstance().setScreen(TitleScreen.class);
-			}
-		}
-		
-		super.render();
 	}
 	
 	public void dispose() {

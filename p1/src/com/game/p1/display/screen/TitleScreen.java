@@ -3,6 +3,9 @@ package com.game.p1.display.screen;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Bounce;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,33 +24,24 @@ public class TitleScreen extends DisplayScreen {
 		super( Config.SCREEN_WIDTH,Config.SCREEN_HEIGHT );
 		// TODO Auto-generated constructor stub
 		Assets assets = Assets.getInstance();
+		TextureAtlas atlas = assets.get("gfx/assets.pack");
 		
-		DisplayObject bg = new DisplayObject(assets.getTextureRegion("bg"));
+		TextureRegion bgTexture = atlas.findRegion("bg");
+		DisplayObject bg = new DisplayObject(bgTexture);
 		addActor(bg);
 		
-		final DisplayText text = new DisplayText("" , assets.getFont("uni_05_63"));
-		text.addListener(new ActorDragListener(text, this));
-		text.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// TODO Auto-generated method stub
-				text.setX(text.getX()+1);
-				return super.touchDown(event, x, y, pointer, button);
-			}
-			
-			
-		});
-		text.setPosition(100, 100);
-		addActor(text);
+		BitmapFont font = assets.get("data/fonts/uni05_64.fnt");
+		DisplayText title = new DisplayText("PROJECT P1" , font);
+		//title.addListener(new ActorDragListener(title, this));
+		title.setPosition((width - title.getWidth())/2, height);
+		addActor(title);
 		
 	    
 	    //more sample at http://www.aurelienribon.com/blog/projects/universal-tween-engine/
-		Tween.to(text, ActorTweenAccessor.POSITION_XY, 0.5f)
-		    .target(0, 0)
+		Tween.to(title, ActorTweenAccessor.POSITION_XY, 0.5f)
+		    .target(309,253)
 		    .ease(Bounce.OUT)
-		    .delay(1.0f)
-		    .repeatYoyo(2, 0.5f)
+		    .delay(.5f)
 		    .start(manager);
 		
 		bg.addListener(new ClickListener() {

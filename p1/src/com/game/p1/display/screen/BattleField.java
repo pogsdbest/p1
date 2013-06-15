@@ -1,5 +1,6 @@
 package com.game.p1.display.screen;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
@@ -38,22 +39,16 @@ public class BattleField extends DisplayScreen {
 	public void addJoystickGroup() {
 
 		josystickGroup = new Group();
+		Assets asset = Assets.getInstance();
+		TextureAtlas atlas = asset.get("data/assets.pack");
+		
+		bManTop = new DisplayObject(atlas.findRegion("uphuman"));
+		bManBot = new DisplayObject(atlas.findRegion("downhuman"));
+		bManRight = new DisplayObject(atlas.findRegion("righthuman"));
+		bManLeft = new DisplayObject(atlas.findRegion("lefthuman"));
 
-		// bManTop = new DisplayObject(Assets.getInstance().bomberMan[3]);
-		bManTop = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"uphuman"));
-		// bManBot = new DisplayObject(Assets.getInstance().bomberMan[2]);
-		bManBot = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"downhuman"));
-		// bManRight = new DisplayObject(Assets.getInstance().bomberMan[0]);
-		bManRight = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"righthuman"));
-		// bManLeft = new DisplayObject(Assets.getInstance().bomberMan[1]);
-		bManLeft = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"lefthuman"));
-
-		bManX = Config.SCREEN_WIDTH / 2;
-		bManY = Config.SCREEN_WIDTH / 2;
+		bManX = width / 2;
+		bManY = height / 2;
 
 		bManTop.setPosition(bManX, bManY);
 		bManBot.setPosition(bManX, bManY);
@@ -70,13 +65,10 @@ public class BattleField extends DisplayScreen {
 		bManRight.setVisible(false);
 		bManLeft.setVisible(false);
 
-		right = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"rightarrow"));
-		left = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"leftarrow"));
-		up = new DisplayObject(Assets.getInstance().getTextureRegion("uparrow"));
-		down = new DisplayObject(Assets.getInstance().getTextureRegion(
-				"downarrow"));
+		right = new DisplayObject(atlas.findRegion("rightarrow"));
+		left = new DisplayObject(atlas.findRegion("leftarrow"));
+		up = new DisplayObject(atlas.findRegion("uparrow"));
+		down = new DisplayObject(atlas.findRegion("downarrow"));
 
 		right.setPosition(Config.SCREEN_WIDTH - 10 - right.getWidth(),
 				10 + (right.getHeight() * 2));
