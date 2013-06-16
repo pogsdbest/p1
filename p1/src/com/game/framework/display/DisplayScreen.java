@@ -23,7 +23,6 @@ public class DisplayScreen extends Stage implements Screen {
 	protected OrthographicCamera camera;
 	protected TweenManager manager;
 	
-	//protected String name;
 	protected float width;
 	protected float height;
 	protected BitmapFont font;
@@ -64,7 +63,7 @@ public class DisplayScreen extends Stage implements Screen {
 		//batch.setProjectionMatrix(camera.combined);
 		
 		
-		drawTileMap();
+		drawTileMapLayers();
 		batch.begin();
 		//draw stage and actors
 		draw();//must not override
@@ -111,7 +110,7 @@ public class DisplayScreen extends Stage implements Screen {
 		sprite.draw(batch);
 	}
 	
-	protected void drawTileMap() {
+	protected void drawTileMapLayers() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -45,31 +45,13 @@ public class Assets {
 		
 		//load maps
 		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		manager.load("data/maps/map.tmx",TiledMap.class);
+		manager.load("data/maps/map1.tmx",TiledMap.class);
+		
 	}
 	
 	public <T> T get(String name) {
 		return manager.get(name);
 	}
-	
-	private TextureRegion[] getAtlasAnimation(TextureAtlas atlas,String name,int frameCount , int startIndex , boolean format) {
-		TextureRegion[] frames = new TextureRegion[frameCount];
-		for(int i=0;i<frameCount ;i++){
-			String textureName="";
-			if(format)
-				textureName = name+String.format("%04d", startIndex);
-			else
-				textureName = name + startIndex;
-			frames[i] = atlas.findRegion(textureName);
-			startIndex++;
-		}
-		return frames;
-	}
-	/*
-	private TextureRegion[] getAtlasAnimation(TextureAtlas atlas,String name,int frameCount,boolean format) {
-		return getAtlasAnimation(atlas,name,frameCount,0,format);
-	}
-	*/
 	
 	public void playMusic(Music music)
 	{
