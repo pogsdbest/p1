@@ -4,12 +4,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class TileMapDisplay extends Actor {
+public class TileMapDisplay extends Group {
 	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
+	private OrthographicCamera camera;
 	
 	public TileMapDisplay(TiledMap map ,OrthographicCamera camera) {
 		// TODO Auto-generated constructor stub
@@ -19,17 +20,19 @@ public class TileMapDisplay extends Actor {
 
 	public TileMapDisplay(TiledMap map ,OrthographicCamera camera ,float unitScale) {
 		this.map = map;
+		this.camera = camera;
 		// TODO Auto-generated constructor stub
 		renderer = new OrthogonalTiledMapRenderer(map, unitScale);
-		renderer.setView(camera);
 	}
 	
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		// TODO Auto-generated method stub
-		super.draw(batch, parentAlpha);
+		batch.end();
+		renderer.setView(camera);
 		renderer.render();
-		
+		batch.begin();
+		super.draw(batch, parentAlpha);
 	}
 
 }

@@ -13,6 +13,10 @@ public class DisplayObject extends Group {
 	protected float alpha;
 	//public boolean visible;
 	
+	public DisplayObject() {
+		// TODO Auto-generated constructor stub
+		this(null);
+	}
 	public DisplayObject(TextureRegion texture) {
 		super();
 		this.setTexture(texture);

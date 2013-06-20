@@ -62,14 +62,13 @@ public class DisplayScreen extends Stage implements Screen {
 		//draw tile maps
 		//batch.setProjectionMatrix(camera.combined);
 		
-		
 		drawTileMapLayers();
 		batch.begin();
 		//draw stage and actors
 		draw();//must not override
 		batch.end();
 		//draw
-		batch.begin();
+		
 		//update
 				
 		Vector3 temp = new Vector3();
@@ -81,11 +80,12 @@ public class DisplayScreen extends Stage implements Screen {
 		
 		//draw screen with zoom
 		camera.zoom = zoom;
+		batch.begin();
 		drawScreen(batch);
 		if(isDebug) {
-			font.setScale(getScaleRatio().x, getScaleRatio().y);
-			font.draw(batch, "FPS : " + Gdx.graphics.getDeltaTime() , 20, height - 20);
+			font.draw(batch, "Delta Time : " + Gdx.graphics.getDeltaTime() , 20, height - 20);
 			font.draw(batch, "Camera : x : " + camera.position.x + " y : " + camera.position.y, 20, height - 40);
+			font.draw(batch, "FPS : " + Gdx.graphics.getFramesPerSecond(), 20, height - 60);
 			font.setScale(1, 1);
 		}
 		batch.end();
@@ -202,6 +202,7 @@ public class DisplayScreen extends Stage implements Screen {
 		// TODO Auto-generated method stub
 		batch.dispose();
 		font.dispose();
+		super.dispose();
 	}
 
 }

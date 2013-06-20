@@ -2,8 +2,9 @@ package com.game.framework.display;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class DisplayCamera extends Actor {
+public class DisplayCamera extends Group {
 	
 	private Actor target;
 	private Camera camera;
