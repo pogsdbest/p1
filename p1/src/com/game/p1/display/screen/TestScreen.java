@@ -1,5 +1,6 @@
 package com.game.p1.display.screen;
 
+
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,11 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
+import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Config;
@@ -49,7 +54,7 @@ public class TestScreen extends DisplayScreen {
 		
 		TextureRegion characterTexture = atlas.findRegion("downhuman");
 		character = new DisplayObject(characterTexture);
-		character.setPosition(0, 0);
+		character.setPosition(mapDisplay.getWidth()/2, mapDisplay.getHeight()/2);
 		addActor(character);
 		addListener(new InputListener(){
 			@Override
@@ -65,15 +70,53 @@ public class TestScreen extends DisplayScreen {
 		addActor(displayCamera);
 		
 		Skin skin = assets.get("data/skins/uiskin.json");
-		TextButton btn = new TextButton("HELLO", skin);
-		btn.setX(100);
-		btn.setWidth(200);
-		displayCamera.addActor(btn);
 		
-		Label label = new Label("Character selection", skin); 
+		
+		Label label = new Label("Project-P1 v1.0.0", skin); 
 		displayCamera.addActor(label);
 		label.addListener(new ActorDragListener());
 		label.setX(500);
+		
+		final TextArea textArea = new TextArea("", skin);
+		textArea.setColor(1f, 1f, 1f, .5f);
+		textArea.setDisabled(true);
+		final TextField messageField = new TextField("hello there",skin);
+		messageField.addListener(new InputListener(){
+			@Override
+			public boolean keyDown(InputEvent event, int keycode) {
+				// TODO Auto-generated method stub
+				if(keycode == Keys.ENTER) {
+					send(textArea,messageField);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
+		TextButton sendButton = new TextButton("SEND", skin);
+		sendButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// TODO Auto-generated method stub
+				send(textArea,messageField);
+				super.clicked(event, x, y);
+			}
+		});
+		
+		Table table = new Table(skin);
+		table.setWidth(300);
+		table.setHeight(150);
+		displayCamera.addActor(table);
+		
+		table.add(textArea).width(300).height(table.getHeight() - messageField.getHeight()).colspan(2);
+		table.row();
+		table.add(messageField).width(table.getWidth() - sendButton.getWidth());
+		table.add(sendButton).fill();
+		
+	}
+	
+	protected void send(TextArea textArea, TextField messageField) {
+		// TODO Auto-generated method stub
+		textArea.append(messageField.getText());
+		messageField.setText("");
 	}
 	
 	@Override
@@ -87,7 +130,6 @@ public class TestScreen extends DisplayScreen {
 	@Override
 	protected void drawScreen(SpriteBatch batch) {
 		// TODO Auto-generated method stub
-		font.draw(batch, "x : "+character.getX(), 10, 30);
 		super.drawScreen(batch);
 	}
 	
