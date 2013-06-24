@@ -91,10 +91,10 @@ public class DisplayScreen extends Stage implements Screen {
 		batch.end();
 		camera.zoom = zoomHolder;
 		
-		//manager.update(delta);
 		act(delta);
 		update(delta);
 		manager.update(delta);
+		
 	}
 
 	protected void drawScreen(SpriteBatch batch) {
@@ -165,6 +165,19 @@ public class DisplayScreen extends Stage implements Screen {
 	
 	public void init() {
 		
+	}
+	
+	@Override
+	public boolean keyDown(int keyCode) {
+		// TODO Auto-generated method stub
+		
+		return super.keyDown(keyCode);
+	}
+	
+	@Override
+	public boolean keyUp(int keyCode) {
+		// TODO Auto-generated method stub
+		return super.keyUp(keyCode);
 	}
 
 	@Override

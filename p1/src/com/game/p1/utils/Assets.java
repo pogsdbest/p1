@@ -6,9 +6,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 
@@ -39,6 +39,7 @@ public class Assets {
 		manager.load("data/assets.pack",TextureAtlas.class);
 		//load fonts
 		manager.load("data/fonts/uni05_64.fnt",BitmapFont.class);
+		manager.load("data/skins/uiskin.json",Skin.class);
 		//load Sounds
 		
 		//load Musics
