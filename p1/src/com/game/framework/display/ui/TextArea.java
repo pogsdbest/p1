@@ -483,7 +483,7 @@ public class TextArea extends Widget {
 		} else {
 			font.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * parentAlpha);
 			//font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY + yOffset, visibleTextStart, visibleTextEnd);
-			font.drawWrapped(batch, displayText, x + bgLeftWidth + textOffset, y + textY + displayTextY + yOffset, getWidth() - textOffset, HAlignment.LEFT);
+			font.drawWrapped(batch, displayText, x + bgLeftWidth + textOffset, y + textY + displayTextY + yOffset, getWidth(), HAlignment.LEFT);
 		}
 		if (focused && !disabled) {
 			blink();
@@ -656,9 +656,8 @@ public class TextArea extends Widget {
 
 	public void setText (String text) {
 		if (text == null) throw new IllegalArgumentException("text cannot be null.");
-
 		BitmapFont font = style.font;
-
+		
 		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			if (maxLength > 0 && buffer.length() + 1 > maxLength) break;
@@ -706,13 +705,41 @@ public class TextArea extends Widget {
 		}
 	}
 	
+	private String chopChopText(String text) {
+		// TODO Auto-generated method stub
+		String scanedText= "";
+		String outputText = "";
+		for(int i=0;i<text.length();i++) {
+			char c = text.charAt(i);
+			scanedText += c;
+			String t = scanedText;
+			if(i<text.length()-1){
+				t += text.charAt(i+1);
+			}
+			
+			TextBounds tb = style.font.getBounds(t);
+			
+			if(tb.width >= getWidth() - renderOffset ) {
+				scanedText += '\n';
+				outputText += scanedText;
+				scanedText = "";
+			}
+			
+			if(i==text.length() -1){
+				outputText += scanedText;
+			}
+		}
+		return outputText;
+	}
+
 	public void append(String text) {
 		// TODO Auto-generated method stub
 		if (text == null) throw new IllegalArgumentException("text cannot be null.");
 		if(text.length()==0) return;
-		if(this.text.length()>0)
+		if(this.text.length()>0) {
+			text = chopChopText(text);
 			setText(this.text + "\n" + text);
-		else
+		} else
 			setText(text);
 	}
 
