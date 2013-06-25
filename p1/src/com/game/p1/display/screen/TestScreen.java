@@ -22,7 +22,10 @@ import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
 import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
+import com.game.framework.net.ClientConnection;
+import com.game.framework.utils.L;
 import com.game.p1.utils.Assets;
+import com.game.p1.utils.Commands;
 import com.game.p1.utils.Config;
 
 public class TestScreen extends DisplayScreen {
@@ -71,7 +74,6 @@ public class TestScreen extends DisplayScreen {
 		
 		Skin skin = assets.get("data/skins/uiskin.json");
 		
-		
 		Label label = new Label("Project-P1 v1.0.0", skin); 
 		displayCamera.addActor(label);
 		label.addListener(new ActorDragListener());
@@ -111,11 +113,37 @@ public class TestScreen extends DisplayScreen {
 		table.add(messageField).width(table.getWidth() - sendButton.getWidth());
 		table.add(sendButton).fill();
 		
+		addListener(new InputListener(){
+			@Override
+			public boolean keyDown(InputEvent event, int keycode) {
+				// TODO Auto-generated method stub
+				
+				return super.keyDown(event, keycode);
+			}
+		});
+		
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
 		// TODO Auto-generated method stub
-		textArea.append(messageField.getText());
+		String message = messageField.getText();
+		if(message.charAt(0) == '-') {
+			
+			if(message.equals(Commands.CONNECT)) {
+				final ClientConnection cc = new ClientConnection();
+				Thread t = new Thread(new Runnable(){
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						cc.connectTo("80", "arnelpogs-pogsdbest-p1.jit.su");
+						L.wtf("Connecting....");
+					}
+				});
+				t.start();
+			}
+		}
+		
+		textArea.append(message);
 		messageField.setText("");
 	}
 	
