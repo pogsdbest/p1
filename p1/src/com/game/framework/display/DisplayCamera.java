@@ -48,5 +48,17 @@ public class DisplayCamera extends Group {
 		topBoundary = boundaries.getHeight() - camera.viewportHeight/2;
 		bottomBoundary = 0 + camera.viewportHeight/2;
 	}
+	
+	@Override
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return camera.viewportWidth;
+	}
+	
+	@Override
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return camera.viewportHeight;
+	}
 
 }

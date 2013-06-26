@@ -1,13 +1,15 @@
 package com.game.p1.display.screen;
 
 
+import org.json.JSONObject;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
 import com.game.framework.display.DisplayObject;
@@ -23,19 +26,22 @@ import com.game.framework.display.tilemap.TileMapDisplay;
 import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
-import com.game.framework.utils.L;
+import com.game.framework.net.ConnectionCallback;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Commands;
 import com.game.p1.utils.Config;
 
-public class TestScreen extends DisplayScreen {
+public class TestScreen extends DisplayScreen implements ConnectionCallback {
 
-	private OrthogonalTiledMapRenderer renderer;
 	private DisplayObject character;
 	private boolean goLeft;
 	private boolean goRight;
 	private boolean goDown;
 	private boolean goUp;
+	private ClientConnection cc;
+	private TextArea textArea;
+	private Skin skin;
+	private DisplayCamera displayCamera;
 
 	public TestScreen() {
 		super(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
@@ -67,22 +73,22 @@ public class TestScreen extends DisplayScreen {
 			}
 		});
 		
-		DisplayCamera displayCamera = new DisplayCamera(camera);
+		displayCamera = new DisplayCamera(camera);
 		displayCamera.setTarget(character);
 		displayCamera.setBoundaries(mapDisplay);
 		addActor(displayCamera);
 		
-		Skin skin = assets.get("data/skins/uiskin.json");
+		skin = assets.get("data/skins/uiskin.json");
 		
 		Label label = new Label("Project-P1 v1.0.0", skin); 
 		displayCamera.addActor(label);
 		label.addListener(new ActorDragListener());
 		label.setX(500);
 		
-		final TextArea textArea = new TextArea("", skin);
+		textArea = new TextArea("", skin);
 		textArea.setColor(1f, 1f, 1f, .5f);
 		textArea.setDisabled(true);
-		final TextField messageField = new TextField("hello there",skin);
+		final TextField messageField = new TextField("-connect 80 127.0.0.1",skin);
 		messageField.addListener(new InputListener(){
 			@Override
 			public boolean keyDown(InputEvent event, int keycode) {
@@ -122,24 +128,27 @@ public class TestScreen extends DisplayScreen {
 			}
 		});
 		
+		cc = new ClientConnection();
+		cc.setCallback(this);
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
 		// TODO Auto-generated method stub
 		String message = messageField.getText();
+		if(message.length() == 0) return;
 		if(message.charAt(0) == '-') {
-			
-			if(message.equals(Commands.CONNECT)) {
-				final ClientConnection cc = new ClientConnection();
-				Thread t = new Thread(new Runnable(){
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						cc.connectTo("80", "arnelpogs-pogsdbest-p1.jit.su");
-						L.wtf("Connecting....");
-					}
-				});
-				t.start();
+			String[] commands = message.split(" ");
+			String command = commands[0];
+			if(command.equals(Commands.CONNECT) && commands.length==3) {
+				if(!cc.isConnected())
+					cc.connectTo(commands[1], commands[2]);
+			}  else if(command.equals(Commands.SEND) && commands.length==2) {
+				if(!cc.isConnected()) return;
+				try{
+					JSONObject object = new JSONObject();
+					object.put("key", commands[1]);
+					cc.sendData(object);
+				} catch(Exception e) {}
 			}
 		}
 		
@@ -205,6 +214,52 @@ public class TestScreen extends DisplayScreen {
 			goUp = false;
 		}
 		return super.keyUp(keyCode);
+	}
+
+	@Override
+	public void obtainedData(JSONObject data) {
+		// TODO Auto-generated method stub
+		try {
+			textArea.append(data.getString("message"));
+		} catch(Exception e) {}
+	}
+	
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		cc.dispose();
+		super.dispose();
+	}
+
+	@Override
+	public void connectionCrash(String err) {
+		// TODO Auto-generated method stub
+		final Window window = new Window("ERROR REPORT", skin);
+		TextButton btn = new TextButton("QUIT",skin);
+		btn.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// TODO Auto-generated method stub
+				window.remove();
+				Gdx.app.exit();
+				super.clicked(event, x, y);
+			}
+		});
+		
+		Label label = new Label(err,skin);
+		window.setWidth(label.getWidth()*1.5f);
+		window.setHeight(100);
+		
+		Table table = new Table();
+		table.add(label).uniform();
+		table.row();
+		table.add(btn).center();
+		window.add(table);
+		
+		displayCamera.addActor(window);
+		
+		window.setX((displayCamera.getWidth() - window.getWidth())/2 );
+		window.setY((displayCamera.getHeight() - window.getHeight()) /2);
 	}
 
 }

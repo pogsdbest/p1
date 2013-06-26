@@ -10,10 +10,14 @@ var server = net.createServer(function (c)
     {
         console.log('nodeServer disconnected');
     });
+    c.on("connect",function() {
+		c.write("{message:'Successfully connected!'}");
+		console.log('someone connected');
+	});
 });
 server.listen( 80 , function ()
 { //'listening' listener
-    console.log('nodeServer listening port:6000');
+    console.log('nodeServer listening port:80');
 });
 
 console.log("Running");
