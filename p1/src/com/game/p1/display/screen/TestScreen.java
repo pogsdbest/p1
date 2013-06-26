@@ -17,12 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
+import com.game.framework.display.ui.DialogWindow;
 import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
@@ -88,7 +88,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		textArea = new TextArea("", skin);
 		textArea.setColor(1f, 1f, 1f, .5f);
 		textArea.setDisabled(true);
-		final TextField messageField = new TextField("-connect 80 127.0.0.1",skin);
+		final TextField messageField = new TextField("-connect 6000 127.0.0.1",skin);
 		messageField.addListener(new InputListener(){
 			@Override
 			public boolean keyDown(InputEvent event, int keycode) {
@@ -234,9 +234,8 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	@Override
 	public void connectionCrash(String err) {
 		// TODO Auto-generated method stub
-		final Window window = new Window("ERROR REPORT", skin);
-		TextButton btn = new TextButton("QUIT",skin);
-		btn.addListener(new ClickListener(){
+		final DialogWindow window = new DialogWindow(skin,"ERROR REPORT",err,"QUIT");
+		window.getButton().addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				// TODO Auto-generated method stub
@@ -245,19 +244,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 				super.clicked(event, x, y);
 			}
 		});
-		
-		Label label = new Label(err,skin);
-		window.setWidth(label.getWidth()*1.5f);
-		window.setHeight(100);
-		
-		Table table = new Table();
-		table.add(label).uniform();
-		table.row();
-		table.add(btn).center();
-		window.add(table);
-		
 		displayCamera.addActor(window);
-		
 		window.setX((displayCamera.getWidth() - window.getWidth())/2 );
 		window.setY((displayCamera.getHeight() - window.getHeight()) /2);
 	}
