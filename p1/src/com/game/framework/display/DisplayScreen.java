@@ -25,7 +25,7 @@ public class DisplayScreen extends Stage implements Screen {
 	
 	protected float width;
 	protected float height;
-	protected BitmapFont font;
+	private BitmapFont font;
 	protected boolean isDebug;
 	protected float zoom;
 
@@ -49,7 +49,7 @@ public class DisplayScreen extends Stage implements Screen {
 		isDebug = false;
 		zoom = 1;
 		
-		font = new BitmapFont();
+		setFont(new BitmapFont());
 		Tween.registerAccessor(Actor.class, new ActorTweenAccessor());
 	}
 	
@@ -83,10 +83,10 @@ public class DisplayScreen extends Stage implements Screen {
 		batch.begin();
 		drawScreen(batch);
 		if(isDebug) {
-			font.draw(batch, "Delta Time : " + Gdx.graphics.getDeltaTime() , 20, height - 20);
-			font.draw(batch, "Camera : x : " + camera.position.x + " y : " + camera.position.y, 20, height - 40);
-			font.draw(batch, "FPS : " + Gdx.graphics.getFramesPerSecond(), 20, height - 60);
-			font.setScale(1, 1);
+			getFont().draw(batch, "Delta Time : " + Gdx.graphics.getDeltaTime() , 20, height - 20);
+			getFont().draw(batch, "Camera : x : " + camera.position.x + " y : " + camera.position.y, 20, height - 40);
+			getFont().draw(batch, "FPS : " + Gdx.graphics.getFramesPerSecond(), 20, height - 60);
+			getFont().setScale(1, 1);
 		}
 		batch.end();
 		camera.zoom = zoomHolder;
@@ -163,6 +163,15 @@ public class DisplayScreen extends Stage implements Screen {
 		return camera;
 	}
 	
+	public BitmapFont getFont() {
+		return font;
+	}
+
+	public void setFont(BitmapFont font) {
+		this.font = font;
+	}
+
+	
 	public void init() {
 		
 	}
@@ -214,8 +223,7 @@ public class DisplayScreen extends Stage implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		batch.dispose();
-		font.dispose();
+		getFont().dispose();
 		super.dispose();
 	}
-
 }

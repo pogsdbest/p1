@@ -16,7 +16,7 @@ public class AnimatedDisplayObject extends DisplayObject {
 	public AnimatedDisplayObject(TextureRegion[] textures) {
 		// TODO Auto-generated constructor stub
 		super(textures[0]);
-		this.duration = 0.08f;
+		this.duration = 0.1f;
 		this.stateTime = 0f;
 		this.looping = true;
 		setTextures(duration,textures);
@@ -42,7 +42,8 @@ public class AnimatedDisplayObject extends DisplayObject {
 		this.duration = duration;
 		this.textures = textures;
 		this.animation = new Animation(duration,textures);
-		this.animation.setPlayMode(Animation.LOOP);
+		if(looping)
+			this.animation.setPlayMode(Animation.LOOP);
 	}
 	
 	public void resetAnimation() {

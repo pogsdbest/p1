@@ -10,5 +10,7 @@ public class Config {
 	
 	public static boolean soundOn = false;
 	
+	public static float DELTA_TIME = 1/60f;
+	
 
 }

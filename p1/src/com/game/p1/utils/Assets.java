@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -52,6 +53,17 @@ public class Assets {
 	
 	public <T> T get(String name) {
 		return manager.get(name);
+	}
+	
+	public TextureRegion[] getAtlasAnimation(String atlas , String name , int start , int end) {
+		TextureAtlas textureAtlas = get(atlas);
+		TextureRegion[] regions = new TextureRegion[(end+1) - start];
+		int index = 0;
+		for(int i = start;i<end+1;i++) {
+			regions[index] = textureAtlas.findRegion(name+i);
+			index++;
+		}
+		return regions;
 	}
 	
 	public void playMusic(Music music)

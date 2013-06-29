@@ -10,3 +10,87 @@ bg
   orig: 800, 480
   offset: 0, 0
   index: -1
+a1
+  rotate: false
+  xy: 803, 449
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a10
+  rotate: false
+  xy: 803, 415
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a11
+  rotate: false
+  xy: 837, 449
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a12
+  rotate: false
+  xy: 803, 381
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a2
+  rotate: false
+  xy: 837, 415
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a3
+  rotate: false
+  xy: 871, 449
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a4
+  rotate: false
+  xy: 803, 347
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a5
+  rotate: false
+  xy: 837, 381
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a6
+  rotate: false
+  xy: 871, 415
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a7
+  rotate: false
+  xy: 905, 449
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a8
+  rotate: false
+  xy: 803, 313
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+a9
+  rotate: false
+  xy: 837, 347
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

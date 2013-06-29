@@ -17,7 +17,7 @@ public class LoadingScreen extends DisplayScreen{
 		// TODO Auto-generated constructor stub
 		Assets.getInstance().initialize();
 		
-		loadingText = new DisplayText("Loading...",font);
+		loadingText = new DisplayText("Loading...",getFont());
 		loadingText.setPosition((width - loadingText.getWidth())/2, ( height - loadingText.getHeight())/2);
 		addActor(loadingText);
 	}

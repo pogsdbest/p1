@@ -1,6 +1,9 @@
 package com.game.p1.display.screen;
 
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
@@ -27,13 +30,15 @@ import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
+import com.game.p1.display.objects.player.PlayerDisplay;
+import com.game.p1.display.objects.player.PlayerPrefab;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Commands;
 import com.game.p1.utils.Config;
 
 public class TestScreen extends DisplayScreen implements ConnectionCallback {
 
-	private DisplayObject character;
+	private PlayerDisplay character;
 	private boolean goLeft;
 	private boolean goRight;
 	private boolean goDown;
@@ -62,7 +67,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		addActor(mapDisplay);
 		
 		TextureRegion characterTexture = atlas.findRegion("downhuman");
-		character = new DisplayObject(characterTexture);
+		character = PlayerPrefab.getInstance().createPlayer();
 		character.setPosition(mapDisplay.getWidth()/2, mapDisplay.getHeight()/2);
 		addActor(character);
 		addListener(new InputListener(){
@@ -142,7 +147,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 			if(command.equals(Commands.CONNECT) && commands.length==3) {
 				if(!cc.isConnected())
 					cc.connectTo(commands[1], commands[2]);
-			}  else if(command.equals(Commands.SEND) && commands.length==2) {
+			}  else if(command.equals(Commands.SEND)) {
 				if(!cc.isConnected()) return;
 				try{
 					JSONObject object = new JSONObject();
@@ -150,6 +155,11 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 					cc.sendData(object);
 				} catch(Exception e) {}
 			}
+		}
+		Pattern pattern = Pattern.compile("\"(.*?)\"");
+		Matcher matcher = pattern.matcher(message);
+		if (matcher.find()) {
+		    message = (matcher.group(1));
 		}
 		
 		textArea.append(message);
@@ -173,15 +183,6 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	@Override
 	protected void update(float delta) {
 		// TODO Auto-generated method stub
-		if(goLeft) {
-			character.setX(character.getX() - 2);
-		} else if(goRight) {
-			character.setX(character.getX() + 2);
-		} else if(goDown) {
-			character.setY(character.getY() - 2);
-		} else if(goUp) {
-			character.setY(character.getY() + 2);
-		}
 		
 		super.update(delta);
 	}
@@ -190,28 +191,26 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	public boolean keyDown(int keyCode) {
 		// TODO Auto-generated method stub
 		if(keyCode == Keys.LEFT ) {
-			goLeft = true;
+			character.moveLeft();
 		} else if(keyCode == Keys.RIGHT ) {
-			goRight = true;
+			character.moveRight();
 		} else if(keyCode == Keys.DOWN ) {
-			goDown = true;
+			character.moveDown();
 		} else if(keyCode == Keys.UP ) {
-			goUp = true;
+			character.moveUp();
 		}
 		return super.keyDown(keyCode);
 	}
 	
 	@Override
 	public boolean keyUp(int keyCode) {
-		// TODO Auto-generated method stub
-		if(keyCode == Keys.LEFT ) {
-			goLeft = false;
-		} else if(keyCode == Keys.RIGHT ) {
-			goRight = false;
-		} else if(keyCode == Keys.DOWN ) {
-			goDown = false;
-		} else if(keyCode == Keys.UP ) {
-			goUp = false;
+		if(Gdx.input.isKeyPressed(Keys.LEFT) || 
+			Gdx.input.isKeyPressed(Keys.RIGHT) ||
+			Gdx.input.isKeyPressed(Keys.DOWN) ||
+			Gdx.input.isKeyPressed(Keys.UP) ) {
+			
+		} else {
+			character.idle();
 		}
 		return super.keyUp(keyCode);
 	}
