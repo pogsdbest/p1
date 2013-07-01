@@ -18,23 +18,39 @@ var server = net.createServer(function(socket) { // 'connection' listener
 			console.log(message);
 		} else if(key == "login") {
 			var username = obj.username;
-			player.username = username;
-			var isSuccessful = addPlayer(player);
+			var newPlayer = {};
+			newPlayer.username = username;
+			var isSuccessful = addPlayer(newPlayer);
 			var obj = {};
 			obj.key = "login";
 			obj.txt = "-";
-			if(isSuccessful) obj.txt = "Successfully login as "+username;
+			if(isSuccessful) {
+				obj.txt = "Successfully login as "+username;
+				player = newPlayer;
+			}
 			else obj.txt = "Failed to login";
 			socket.write(JSON.stringify(obj));
 			
 			printPlayerList();
 		}
 	});
+	socket.on('close', function() {
+		console.log('Connection closed for '+player.username);
+		if(getPlayer(player.username)!=null) {
+			removePlayer(player);
+		}
+	});
+	socket.on('error', function() {
+		console.log('server error for '+player.username);
+	});
 	socket.on('end', function() {
-		console.log('nodeServer disconnected');
+		console.log('nodeServer disconnected...');
 	});
 	socket.on("connect", function() {
-		socket.write("{message:'Successfully connected!'}");
+		var obj = {};
+		obj.key = "msg";
+		obj.txt = "Successfully connected to server."
+		socket.write(JSON.stringify(obj));
 		console.log('new client connected');
 	});
 });
@@ -92,6 +108,23 @@ function addPlayer(player) {
 	} else {
 		return false;
 	}
+}
+/**
+ * function for removing a player on the players object
+ * @param player - the player to remove
+ */
+function removePlayer(player) {
+	if(players[player.username]!=null) {
+		delete players[player.username];
+		playerCount--;
+	}
+}
+/**
+ * function for getting a player using a specified name
+ * @param username - the username of the player you wish to get
+ */
+function getPlayer(username) {
+	return players[username];
 }
 //calling a method of a module requires(require (./path/to/file.js)
 //console.log(playerModel.createPlayer('pogs').id);
