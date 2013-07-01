@@ -4,5 +4,6 @@ public class Commands {
 	
 	public static final String CONNECT = "-connect";
 	public static final String SEND = "-send";
+	public static final String LOGIN = "-login";
 
 }

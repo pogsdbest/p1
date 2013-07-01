@@ -32,6 +32,7 @@ import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
+import com.game.p1.net.Data;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Commands;
 import com.game.p1.utils.Config;
@@ -151,15 +152,24 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 				if(!cc.isConnected()) return;
 				try{
 					JSONObject object = new JSONObject();
-					object.put("key", commands[1]);
+					Pattern pattern = Pattern.compile("\"(.*?)\"");
+					Matcher matcher = pattern.matcher(message);
+					if (matcher.find()) {
+					    message = (matcher.group(1));
+					}
+					object.put(Data.KEY, Data.MESSAGE_KEY);
+					object.put(Data.TEXT, message);
+					cc.sendData(object);
+				} catch(Exception e) {}
+			} else if(command.equals(Commands.LOGIN)) {
+				String username = commands[1];
+				try{
+					JSONObject object = new JSONObject();
+					object.put(Data.KEY, Data.LOGIN_KEY);
+					object.put(Data.USERNAME, username);
 					cc.sendData(object);
 				} catch(Exception e) {}
 			}
-		}
-		Pattern pattern = Pattern.compile("\"(.*?)\"");
-		Matcher matcher = pattern.matcher(message);
-		if (matcher.find()) {
-		    message = (matcher.group(1));
 		}
 		
 		textArea.append(message);
@@ -219,7 +229,12 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	public void obtainedData(JSONObject data) {
 		// TODO Auto-generated method stub
 		try {
-			textArea.append(data.getString("message"));
+			String key  = data.getString(Data.KEY);
+			if(key.equals(Data.MESSAGE_KEY))
+				textArea.append(data.getString(Data.TEXT));
+			else if(key.equals(Data.LOGIN_KEY)) {
+				textArea.append(data.getString(Data.TEXT));
+			}
 		} catch(Exception e) {}
 	}
 	
