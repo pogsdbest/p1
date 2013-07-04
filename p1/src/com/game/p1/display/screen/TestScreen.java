@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
-import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
 import com.game.framework.display.ui.DialogWindow;
@@ -30,6 +29,7 @@ import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
+import com.game.framework.utils.L;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
 import com.game.p1.net.Data;
@@ -209,6 +209,13 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		} else if(keyCode == Keys.UP ) {
 			character.moveUp();
 		}
+		//sending move inputs
+		try{
+			JSONObject obj = new JSONObject();
+			obj.put(Data.KEY, Data.MOVE);
+			obj.put(Data.DIRECTION, character.getState().getValue());
+			cc.sendData(obj);
+		}catch(Exception e){}
 		return super.keyDown(keyCode);
 	}
 	
@@ -222,6 +229,13 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		} else {
 			character.idle();
 		}
+		//sending move inputs
+		try{
+			JSONObject obj = new JSONObject();
+			obj.put(Data.KEY, Data.MOVE);
+			obj.put(Data.DIRECTION, character.getState().getValue());
+			cc.sendData(obj);
+		}catch(Exception e){}
 		return super.keyUp(keyCode);
 	}
 
@@ -234,6 +248,10 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 				textArea.append(data.getString(Data.TEXT));
 			else if(key.equals(Data.LOGIN_KEY)) {
 				textArea.append(data.getString(Data.TEXT));
+			} else if(key.equals(Data.ALL_PLAYER_DATA)){
+				//L.wtf(key);
+				JSONObject allPlayers = data.getJSONObject(Data.PLAYERS);
+				L.wtf(allPlayers.length());
 			}
 		} catch(Exception e) {}
 	}
