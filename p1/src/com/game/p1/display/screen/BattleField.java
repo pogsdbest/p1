@@ -80,10 +80,10 @@ public class BattleField extends DisplayScreen {
 				10 + (right.getHeight() * 1));
 
 		// right.addListener(new ActorDragListener(up, this));
-		right.addListener(new JoystickListener(this, MOVE_RIGHT));
-		left.addListener(new JoystickListener(this, MOVE_LEFT));
-		up.addListener(new JoystickListener(this, MOVE_UP));
-		down.addListener(new JoystickListener(this, MOVE_DOWN));
+//		right.addListener(new JoystickListener(this, MOVE_RIGHT));
+//		left.addListener(new JoystickListener(this, MOVE_LEFT));
+//		up.addListener(new JoystickListener(this, MOVE_UP));
+//		down.addListener(new JoystickListener(this, MOVE_DOWN));
 
 		josystickGroup.addActor(right);
 		josystickGroup.addActor(up);
