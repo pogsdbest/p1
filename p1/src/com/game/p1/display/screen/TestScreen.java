@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
+import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
 import com.game.framework.display.ui.DialogWindow;
@@ -32,6 +33,7 @@ import com.game.framework.net.ConnectionCallback;
 import com.game.framework.utils.L;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
+import com.game.p1.listeners.JoystickListener;
 import com.game.p1.net.Data;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Commands;
@@ -49,6 +51,13 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	private Skin skin;
 	private DisplayCamera displayCamera;
 
+	private DisplayObject downBtn, leftBtn, upBtn, rightBtn;
+	private TextureRegion down, left, up, right;
+	public final int MOVE_RIGHT = 0;
+	public final int MOVE_LEFT = 1;
+	public final int MOVE_UP = 2;
+	public final int MOVE_DOWN = 3;
+	
 	public TestScreen() {
 		super(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		// TODO Auto-generated constructor stub
@@ -136,6 +145,44 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		
 		cc = new ClientConnection();
 		cc.setCallback(this);
+		
+		
+		Assets asset = Assets.getInstance();
+		atlas = asset.get("data/assets.pack");
+		
+
+
+		right = new TextureRegion(atlas.findRegion("rightarrow"));
+		left = new TextureRegion(atlas.findRegion("leftarrow"));
+		up = new TextureRegion(atlas.findRegion("uparrow"));
+		down = new TextureRegion(atlas.findRegion("downarrow"));
+	
+		rightBtn = new DisplayObject(right);
+		rightBtn.setPosition(Config.SCREEN_WIDTH - 10 - rightBtn.getWidth(),
+				10 + (rightBtn.getHeight() * 2));
+		
+		leftBtn = new DisplayObject(left);
+		leftBtn.setPosition(Config.SCREEN_WIDTH - 10 - (leftBtn.getWidth() * 3),
+				10 + (leftBtn.getHeight() * 2));
+		
+		upBtn = new DisplayObject(up);
+		upBtn.setPosition(Config.SCREEN_WIDTH - 10 - (upBtn.getWidth() * 2),
+				10 + (upBtn.getHeight() * 3));
+		
+		downBtn = new DisplayObject(down);
+		downBtn.setPosition(Config.SCREEN_WIDTH - 10 - (downBtn.getWidth() * 2),
+				10 + (downBtn.getHeight() * 1));
+		
+		
+		rightBtn.addListener(new JoystickListener(this, MOVE_RIGHT));
+		leftBtn.addListener(new JoystickListener(this, MOVE_LEFT));
+		downBtn.addListener(new JoystickListener(this, MOVE_DOWN));
+		upBtn.addListener(new JoystickListener(this, MOVE_UP));
+		
+		displayCamera.addActor(rightBtn);
+		displayCamera.addActor(leftBtn);
+		displayCamera.addActor(downBtn);
+		displayCamera.addActor(upBtn);
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
@@ -281,4 +328,25 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		window.setY((displayCamera.getHeight() - window.getHeight()) /2);
 	}
 
+	public void setGoLeft(boolean goLeft) {
+		this.goLeft = goLeft;
+	}
+
+	public void setGoRight(boolean goRight) {
+		this.goRight = goRight;
+	}
+
+	public void setGoDown(boolean goDown) {
+		this.goDown = goDown;
+	}
+
+	public void setGoUp(boolean goUp) {
+		this.goUp = goUp;
+	}
+	public void stopMove() {
+		goDown = false;
+		goRight = false;
+		goLeft = false;
+		goUp = false;
+	}
 }
