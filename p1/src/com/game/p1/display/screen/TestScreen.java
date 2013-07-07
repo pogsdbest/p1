@@ -249,7 +249,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 			else if(key.equals(Data.LOGIN_KEY)) {
 				textArea.append(data.getString(Data.TEXT));
 			} else if(key.equals(Data.ALL_PLAYER_DATA)){
-				//L.wtf(key);
+				L.wtf(key);
 				JSONObject allPlayers = data.getJSONObject(Data.PLAYERS);
 				L.wtf(allPlayers.length());
 			}
