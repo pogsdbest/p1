@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -31,6 +32,7 @@ import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
 import com.game.framework.utils.L;
+import com.game.p1.display.objects.player.Joystick;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
 import com.game.p1.listeners.JoystickListener;
@@ -51,18 +53,10 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	private Skin skin;
 	private DisplayCamera displayCamera;
 
-	private DisplayObject downBtn, leftBtn, upBtn, rightBtn;
-	private TextureRegion down, left, up, right;
-	public final int MOVE_RIGHT = 0;
-	public final int MOVE_LEFT = 1;
-	public final int MOVE_UP = 2;
-	public final int MOVE_DOWN = 3;
-	
 	public TestScreen() {
 		super(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		// TODO Auto-generated constructor stub
 		isDebug = true;
-		
 		Assets assets = Assets.getInstance();
 		TiledMap map = assets.get("data/maps/map1.tmx");
 		TiledMapTileLayer layer0 = (TiledMapTileLayer)map.getLayers().get(0);
@@ -146,43 +140,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		cc = new ClientConnection();
 		cc.setCallback(this);
 		
-		
-		Assets asset = Assets.getInstance();
-		atlas = asset.get("data/assets.pack");
-		
-
-
-		right = new TextureRegion(atlas.findRegion("rightarrow"));
-		left = new TextureRegion(atlas.findRegion("leftarrow"));
-		up = new TextureRegion(atlas.findRegion("uparrow"));
-		down = new TextureRegion(atlas.findRegion("downarrow"));
-	
-		rightBtn = new DisplayObject(right);
-		rightBtn.setPosition(Config.SCREEN_WIDTH - 10 - rightBtn.getWidth(),
-				10 + (rightBtn.getHeight() * 2));
-		
-		leftBtn = new DisplayObject(left);
-		leftBtn.setPosition(Config.SCREEN_WIDTH - 10 - (leftBtn.getWidth() * 3),
-				10 + (leftBtn.getHeight() * 2));
-		
-		upBtn = new DisplayObject(up);
-		upBtn.setPosition(Config.SCREEN_WIDTH - 10 - (upBtn.getWidth() * 2),
-				10 + (upBtn.getHeight() * 3));
-		
-		downBtn = new DisplayObject(down);
-		downBtn.setPosition(Config.SCREEN_WIDTH - 10 - (downBtn.getWidth() * 2),
-				10 + (downBtn.getHeight() * 1));
-		
-		
-		rightBtn.addListener(new JoystickListener(this, MOVE_RIGHT));
-		leftBtn.addListener(new JoystickListener(this, MOVE_LEFT));
-		downBtn.addListener(new JoystickListener(this, MOVE_DOWN));
-		upBtn.addListener(new JoystickListener(this, MOVE_UP));
-		
-		displayCamera.addActor(rightBtn);
-		displayCamera.addActor(leftBtn);
-		displayCamera.addActor(downBtn);
-		displayCamera.addActor(upBtn);
+		new Joystick(this);
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
@@ -296,7 +254,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 			else if(key.equals(Data.LOGIN_KEY)) {
 				textArea.append(data.getString(Data.TEXT));
 			} else if(key.equals(Data.ALL_PLAYER_DATA)){
-				L.wtf(key);
+				//L.wtf(key);
 				JSONObject allPlayers = data.getJSONObject(Data.PLAYERS);
 				L.wtf(allPlayers.length());
 			}
@@ -348,5 +306,9 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		goRight = false;
 		goLeft = false;
 		goUp = false;
+	}
+
+	public DisplayCamera getDisplayCamera() {
+		return displayCamera;
 	}
 }
