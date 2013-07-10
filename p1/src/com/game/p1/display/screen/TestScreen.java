@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
-import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
 import com.game.framework.display.ui.DialogWindow;
@@ -32,10 +30,8 @@ import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
 import com.game.framework.utils.L;
-import com.game.p1.display.objects.player.Joystick;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
-import com.game.p1.listeners.JoystickListener;
 import com.game.p1.net.Data;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Commands;
@@ -140,7 +136,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		cc = new ClientConnection();
 		cc.setCallback(this);
 		
-		new Joystick(this);
+		//new Joystick(this);
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {

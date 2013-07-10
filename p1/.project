@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>assets</name>
+			<type>2</type>
+			<location>D:/pogs/projects/android/p1/p1-android/assets</location>
+		</link>
+	</linkedResources>
 </projectDescription>

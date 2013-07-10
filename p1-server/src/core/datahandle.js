@@ -15,6 +15,8 @@ DataHandle.prototype.handleData = function (object) {
 			
 		} else if(key == this.data.LOGIN) {
 			
+		} else if(key == this.data.LOGOUT) {
+			
 		}
 	}
 };

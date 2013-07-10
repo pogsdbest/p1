@@ -1,10 +1,9 @@
 package com.game.p1;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.game.framework.manager.ScreenManager;
-import com.game.framework.utils.L;
 import com.game.p1.display.screen.BattleField;
 import com.game.p1.display.screen.LoadingScreen;
 import com.game.p1.display.screen.TestScreen;
@@ -13,6 +12,15 @@ import com.game.p1.utils.Assets;
 
 public class P1Main extends Game {
 	
+	public static void main(String[] args) {
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.title = "p1";
+		cfg.useGL20 = false;
+		cfg.width = 800;
+		cfg.height = 480;
+		
+		new LwjglApplication(new P1Main(), cfg);
+	}
 	
 	public P1Main() {
 		// TODO Auto-generated constructor stub

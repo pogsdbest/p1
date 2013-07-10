@@ -6,12 +6,12 @@ import aurelienribon.tweenengine.equations.Bounce;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.DisplayText;
+import com.game.framework.manager.ScreenManager;
 import com.game.framework.utils.ActorTweenAccessor;
 import com.game.framework.utils.L;
 import com.game.p1.utils.Assets;
@@ -54,17 +54,9 @@ public class TitleScreen extends DisplayScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				// TODO Auto-generated method stub
-				//ScreenManager.getInstance().setScreen(TestScreen.class);
-				//super.clicked(event, x, y);
+				ScreenManager.getInstance().setScreen(TestScreen.class);
+				super.clicked(event, x, y);
 			}
 		});
-	}
-	
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Vector2 point = stageToScreenCoordinates(new Vector2(screenX,screenY));
-		L.wtf(point.x);
-		L.wtf(point.y);
-		return super.touchDown(screenX, screenY, pointer, button);
 	}
 }
