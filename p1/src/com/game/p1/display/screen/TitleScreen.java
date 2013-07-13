@@ -7,14 +7,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayObject;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.DisplayText;
-import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.manager.ScreenManager;
 import com.game.framework.utils.ActorTweenAccessor;
+import com.game.framework.utils.L;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Config;
 
@@ -35,6 +34,13 @@ public class TitleScreen extends DisplayScreen {
 		//title.addListener(new ActorDragListener(title, this));
 		title.setPosition((width - title.getWidth())/2, height);
 		addActor(title);
+		title.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				L.wtf("AAAAAAAAAAAA");
+				super.clicked(event, x, y);
+			}
+		});
 		
 	    
 	    //more sample at http://www.aurelienribon.com/blog/projects/universal-tween-engine/
@@ -49,9 +55,8 @@ public class TitleScreen extends DisplayScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				// TODO Auto-generated method stub
 				ScreenManager.getInstance().setScreen(TestScreen.class);
-				//super.clicked(event, x, y);
+				super.clicked(event, x, y);
 			}
 		});
 	}
-
 }
