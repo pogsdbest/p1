@@ -30,6 +30,7 @@ import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
 import com.game.framework.utils.L;
+import com.game.p1.display.objects.player.Joystick;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
 import com.game.p1.net.Data;
@@ -136,7 +137,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		cc = new ClientConnection();
 		cc.setCallback(this);
 		
-		//new Joystick(this);
+		new Joystick(this);
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
