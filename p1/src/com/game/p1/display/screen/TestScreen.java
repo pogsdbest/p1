@@ -24,6 +24,7 @@ import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
 import com.game.framework.net.ConnectionCallback;
 import com.game.framework.net.NetworkServer;
+import com.game.p1.display.objects.player.Joystick;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
 import com.game.p1.utils.Assets;
@@ -123,8 +124,11 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 			}
 		});
 		
+
 		server = new NetworkServer(this);
 		server.startServer();
+
+		new Joystick(this);
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
