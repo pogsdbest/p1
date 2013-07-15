@@ -17,7 +17,7 @@ public class NetworkLobbyScreen extends DisplayScreen {
 	}
 
 	private void createMenu() {
-		menuGroup = new Group();
+		this.menuGroup = new Group();
 		
 		
 	}

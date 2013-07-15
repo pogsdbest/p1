@@ -13,7 +13,6 @@ import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.DisplayText;
 import com.game.framework.manager.ScreenManager;
 import com.game.framework.utils.ActorTweenAccessor;
-import com.game.framework.utils.L;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Config;
 

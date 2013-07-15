@@ -35,7 +35,7 @@ public final class ScreenManager {
 		}
 	}
 	
-	public void setScreen(Class screenClass) {
+	public void setScreen(Class<? extends DisplayScreen> screenClass) {
 		String name = screenClass.toString();
 		if(game.getScreen()!=null) {
 			game.getScreen().dispose();
