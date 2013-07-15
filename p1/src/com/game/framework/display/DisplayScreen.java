@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.game.framework.utils.ActorTweenAccessor;
 
@@ -67,6 +68,8 @@ public class DisplayScreen extends Stage implements Screen {
 		batch.begin();
 		//draw stage and actors
 		draw();//must not override
+		if(isDebug)//draw table UI lines
+			Table.drawDebug(this);
 		batch.end();
 		//draw
 		
@@ -88,6 +91,7 @@ public class DisplayScreen extends Stage implements Screen {
 			getFont().draw(batch, "Camera : x : " + camera.position.x + " y : " + camera.position.y, 20, height - 40);
 			getFont().draw(batch, "FPS : " + Gdx.graphics.getFramesPerSecond(), 20, height - 60);
 			getFont().setScale(1, 1);
+			
 		}
 		batch.end();
 		camera.zoom = zoomHolder;

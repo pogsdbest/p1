@@ -52,7 +52,7 @@ public class TitleScreen extends DisplayScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				// TODO Auto-generated method stub
-				ScreenManager.getInstance().setScreen(MainMenuScreen.class);
+				ScreenManager.getInstance().setScreen(NetworkLobbyScreen.class);
 				super.clicked(event, x, y);
 			}
 		});

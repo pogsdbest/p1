@@ -114,16 +114,6 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		table.row();
 		table.add(messageField).width(table.getWidth() - sendButton.getWidth());
 		table.add(sendButton).fill();
-		
-		addListener(new InputListener(){
-			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
-				// TODO Auto-generated method stub
-				
-				return super.keyDown(event, keycode);
-			}
-		});
-		
 
 		server = new NetworkServer(this);
 		server.startServer();

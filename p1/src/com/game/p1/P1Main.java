@@ -7,7 +7,7 @@ import com.game.framework.manager.ScreenManager;
 import com.game.p1.display.screen.BattleField;
 import com.game.p1.display.screen.LoadingScreen;
 import com.game.p1.display.screen.MainMenuScreen;
-import com.game.p1.display.screen.TestScreen;
+import com.game.p1.display.screen.NetworkLobbyScreen;
 import com.game.p1.display.screen.TitleScreen;
 import com.game.p1.utils.Assets;
 
@@ -38,6 +38,7 @@ public class P1Main extends Game {
 		ScreenManager.getInstance().addScreen( TitleScreen.class);
 		ScreenManager.getInstance().addScreen( BattleField.class);
 		ScreenManager.getInstance().addScreen( MainMenuScreen.class);
+		ScreenManager.getInstance().addScreen( NetworkLobbyScreen.class);
 		
 		ScreenManager.getInstance().setScreen( LoadingScreen.class);
 		

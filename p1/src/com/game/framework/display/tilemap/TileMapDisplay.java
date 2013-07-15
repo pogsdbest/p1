@@ -17,8 +17,6 @@ public class TileMapDisplay extends Group {
 	private int tileMapHeight;
 	private float tileWidth;
 	private float tileHeight;
-	private float boundaryX;
-	private float boundaryY;
 	
 	public TileMapDisplay(TiledMap map ,OrthographicCamera camera) {
 		// TODO Auto-generated constructor stub
@@ -26,7 +24,7 @@ public class TileMapDisplay extends Group {
 	}
 
 	public TileMapDisplay(TiledMap map ,OrthographicCamera camera ,float unitScale) {
-		this.map = map;
+		this.setMap(map);
 		this.camera = camera;
 		// TODO Auto-generated constructor stub
 		renderer = new OrthogonalTiledMapRenderer(map, unitScale);
@@ -63,5 +61,14 @@ public class TileMapDisplay extends Group {
 		// TODO Auto-generated method stub
 		return tileMapHeight * tileHeight;
 	}
+
+	public TiledMap getMap() {
+		return map;
+	}
+
+	public void setMap(TiledMap map) {
+		this.map = map;
+	}
+	
 
 }
