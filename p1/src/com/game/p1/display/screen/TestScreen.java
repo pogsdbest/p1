@@ -1,11 +1,6 @@
 package com.game.p1.display.screen;
 
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONObject;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -24,17 +20,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.framework.display.DisplayCamera;
 import com.game.framework.display.DisplayScreen;
 import com.game.framework.display.tilemap.TileMapDisplay;
-import com.game.framework.display.ui.DialogWindow;
 import com.game.framework.display.ui.TextArea;
 import com.game.framework.listeners.ActorDragListener;
-import com.game.framework.net.ClientConnection;
 import com.game.framework.net.ConnectionCallback;
-import com.game.framework.utils.L;
+import com.game.framework.net.NetworkServer;
 import com.game.p1.display.objects.player.PlayerDisplay;
 import com.game.p1.display.objects.player.PlayerPrefab;
-import com.game.p1.net.Data;
 import com.game.p1.utils.Assets;
-import com.game.p1.utils.Commands;
 import com.game.p1.utils.Config;
 
 public class TestScreen extends DisplayScreen implements ConnectionCallback {
@@ -44,10 +36,10 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 	private boolean goRight;
 	private boolean goDown;
 	private boolean goUp;
-	private ClientConnection cc;
 	private TextArea textArea;
 	private Skin skin;
 	private DisplayCamera displayCamera;
+	private NetworkServer server;
 
 	public TestScreen() {
 		super(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
@@ -56,8 +48,6 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		Assets assets = Assets.getInstance();
 		TiledMap map = assets.get("data/maps/map1.tmx");
 		TiledMapTileLayer layer0 = (TiledMapTileLayer)map.getLayers().get(0);
-		int width = layer0.getWidth();
-		int height = layer0.getHeight();
 		//draw by actor
 		
 		TextureAtlas atlas = assets.get("data/assets.pack");
@@ -133,16 +123,15 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 			}
 		});
 		
-		cc = new ClientConnection();
-		cc.setCallback(this);
-		
-		//new Joystick(this);
+		server = new NetworkServer(this);
+		server.startServer();
 	}
 	
 	protected void send(TextArea textArea, TextField messageField) {
 		// TODO Auto-generated method stub
 		String message = messageField.getText();
 		if(message.length() == 0) return;
+		/*
 		if(message.charAt(0) == '-') {
 			String[] commands = message.split(" ");
 			String command = commands[0];
@@ -172,6 +161,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 				} catch(Exception e) {}
 			}
 		}
+		*/
 		
 		textArea.append(message);
 		messageField.setText("");
@@ -210,13 +200,15 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		} else if(keyCode == Keys.UP ) {
 			character.moveUp();
 		}
+		/*
 		//sending move inputs
 		try{
 			JSONObject obj = new JSONObject();
-			obj.put(Data.KEY, Data.MOVE);
+			obj.put(Data.KEY, Data.MOVE_KEY);
 			obj.put(Data.DIRECTION, character.getState().getValue());
 			cc.sendData(obj);
 		}catch(Exception e){}
+		*/
 		return super.keyDown(keyCode);
 	}
 	
@@ -230,40 +222,46 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		} else {
 			character.idle();
 		}
+		/*
 		//sending move inputs
 		try{
 			JSONObject obj = new JSONObject();
-			obj.put(Data.KEY, Data.MOVE);
+			obj.put(Data.KEY, Data.MOVE_KEY);
 			obj.put(Data.DIRECTION, character.getState().getValue());
 			cc.sendData(obj);
 		}catch(Exception e){}
+		*/
 		return super.keyUp(keyCode);
 	}
 
+	/*
 	@Override
 	public void obtainedData(JSONObject data) {
 		// TODO Auto-generated method stub
+		/*
 		try {
 			String key  = data.getString(Data.KEY);
 			if(key.equals(Data.MESSAGE_KEY))
 				textArea.append(data.getString(Data.TEXT));
 			else if(key.equals(Data.LOGIN_KEY)) {
 				textArea.append(data.getString(Data.TEXT));
-			} else if(key.equals(Data.ALL_PLAYER_DATA)){
+			} else if(key.equals(Data.ALL_PLAYER_DATA_KEY)){
 				//L.wtf(key);
 				JSONObject allPlayers = data.getJSONObject(Data.PLAYERS);
 				L.wtf(allPlayers.length());
 			}
 		} catch(Exception e) {}
+		
 	}
-	
+	*/
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		cc.dispose();
+		server.dispose();
 		super.dispose();
 	}
 
+	/*
 	@Override
 	public void connectionCrash(String err) {
 		// TODO Auto-generated method stub
@@ -281,6 +279,7 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 		window.setX((displayCamera.getWidth() - window.getWidth())/2 );
 		window.setY((displayCamera.getHeight() - window.getHeight()) /2);
 	}
+	*/
 
 	public void setGoLeft(boolean goLeft) {
 		this.goLeft = goLeft;
@@ -306,5 +305,21 @@ public class TestScreen extends DisplayScreen implements ConnectionCallback {
 
 	public DisplayCamera getDisplayCamera() {
 		return displayCamera;
+	}
+
+	@Override
+	public void onConnect(Socket socket) {
+	}
+
+	@Override
+	public void onError() {
+	}
+
+	@Override
+	public void onEnd() {
+	}
+
+	@Override
+	public void onUpdate(byte[] data) {
 	}
 }

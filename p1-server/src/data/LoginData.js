@@ -1,21 +1,29 @@
 /**
  * New node file
  */
-var username = "";
-var x = 0;
-var y = 0;
+var Data = require('../data/data.js');
 
-var LoginData = function (object) {
-	this.username = object.username;
-	this.x = object.x;
-	this.y = object.y;
+var LoginData = function(obj) {
+	var data = new Data();
+	this.data = data;
+
+	this.username = obj[data.USERNAME];
+	this.name = this.username;
+	this.x = obj[data.X];
+	this.y = obj[data.Y];
+	this.state = obj[data.STATE];
+
+	this.isSuccessfull = false;
+	this.message = '';
 };
 
-LoginData.prototype.getUsername = function () {
-	return username;
-};
+LoginData.prototype.getJSON = function() {
+	var obj = {};
+	obj[this.data.KEY] = this.data.LOGIN;
+	obj[this.data.SUCCESS] = this.isSuccessfull;
+	obj[this.data.TEXT] = this.message;
 
-LoginData.prototype.getX = function () { return this.x; };
-LoginData.prototype.getY = function () { return this.y; };
+	return JSON.stringify(obj);
+};
 
 module.exports = LoginData;

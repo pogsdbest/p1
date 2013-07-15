@@ -1,15 +1,14 @@
 /**
  * New node file
  */
+var Data = require('./data.js');
 
-var MessageData = function (object) {
-	this.text = object.txt;
-	this.key = object.key;
+
+var MessageData = function (obj) {
+	var data = new Data();
+	this.text = obj[data.TEXT];;
+	this.key = obj[data.KEY];
 };
-
-MessageData.prototype.getText = function () {return this.text;};
-
-MessageData.prototype.setText = function (text) {this.text = text;};
 
 MessageData.prototype.getJSON = function () {
 	var obj = {};

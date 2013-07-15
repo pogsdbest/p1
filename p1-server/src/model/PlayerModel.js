@@ -1,22 +1,27 @@
 /**
  * New node file
  */
-var name = "unknown";
-var x = 0;
-var y = 0;
+var Data = require('../data/data.js');
+var data = new Data();
 
-var socket = null;
-var PlayerModel = function () {
-	
+var PlayerModel = function(s) {
+
+	this.id = 0;
+	this.username = 0;
+	this.name = '';
+	this.x = 0;
+	this.y = 0;
+	this.state = 0;
+	this.socket = null;
 };
-//getters
-PlayerModel.prototype.getName = function () { return name; };
-PlayerModel.prototype.getSocket = function () { return socket; };
-PlayerModel.prototype.getX = function () {	return x; };
-PlayerModel.prototype.getY = function () {	return y; };
-//setters
-PlayerModel.prototype.setX = function (x) {	this.x =  x; };
-PlayerModel.prototype.setY = function (y) {	this.y =  y; };
-PlayerModel.prototype.setSocket = function (socket) {	this.socket =  socket; };
+
+PlayerModel.prototype.init = function(loginData) {
+	this.id = loginData.username;
+	this.username = loginData.username;
+	this.name = loginData.name;
+	this.x = loginData.x;
+	this.y = loginData.y;
+	this.state = loginData.state;
+};
 
 module.exports = PlayerModel;

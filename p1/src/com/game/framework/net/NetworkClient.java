@@ -3,44 +3,57 @@ package com.game.framework.net;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Disposable;
 import com.game.framework.utils.L;
 
-public class ClientConnection implements Runnable, Disposable {
+public class NetworkClient implements Runnable, Disposable {
 
 	private Socket socket;
-	private InputStream inputStream;
 	private OutputStream outputStream;
-	private Thread thread;
+	private InputStream inputStream;
+	public boolean isDebug;
 	private boolean isConnected;
 	private ConnectionCallback callback;
-	private NetworkServer server;
 
-	public ClientConnection(NetworkServer server ,Socket socket,ConnectionCallback callback) {
-		this.server = server;
-		this.socket = socket;
+	public NetworkClient(ConnectionCallback callback) {
 		this.callback = callback;
-		this.inputStream = socket.getInputStream();
-		this.outputStream = socket.getOutputStream();
-		this.thread = new Thread(this);
-		thread.start();
+		isDebug = false;
+	}
 
-		setConnected(true);
-		callback.onConnect(socket);
+	public void connectTo(int port, String host) {
+		if (host == null)
+			throw new IllegalArgumentException("ip cannot be null.");
+		try {
+			SocketHints hints = new SocketHints();
+			Socket socket = Gdx.net.newClientSocket(Protocol.TCP, host, port,
+					hints);
+			outputStream = socket.getOutputStream();
+			inputStream = socket.getInputStream();
+			isConnected = true;
+			callback.onConnect(socket);
+			Thread thread = new Thread(this);
+			thread.start();
+		} catch (Exception e) {
+			isConnected = false;
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void dispose() {
 		try {
 			if (socket != null) {
-				socket.dispose();
 				inputStream.close();
 				outputStream.close();
+				socket.dispose();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			error("Error at dispose...");
+
 		}
 	}
 
@@ -57,7 +70,7 @@ public class ClientConnection implements Runnable, Disposable {
 			e.printStackTrace();
 			error("Error while retreiving data...");
 		} finally {
-			setConnected(false);
+			isConnected = false;
 			dispose();
 			end();
 		}
@@ -74,22 +87,17 @@ public class ClientConnection implements Runnable, Disposable {
 		}
 	}
 
-	public boolean isConnected() {
-		return isConnected;
+	private void end() {
+		
 	}
 
-	public void setConnected(boolean isConnected) {
-		this.isConnected = isConnected;
-	}
-	
-	public void error(String txt) {
+	private void error(String txt) {
 		L.wtf(txt);
 		callback.onError();
 	}
-	
-	public void end() {
-		callback.onEnd();
-		server.removeClient(this);
+
+	public boolean isConnected() {
+		return isConnected;
 	}
 
 }

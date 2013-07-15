@@ -3,10 +3,12 @@
  */
 var Connection = require('./connection.js');
 var DataHandle = require('./datahandle.js');
+var Game = require('./game.js');
 
 function Core() {
-	this.connection = new Connection();
-	this.dataHandle = new DataHandle();
+	this.game = new Game();
+	this.connection = new Connection(this.game);
+	this.dataHandle = new DataHandle(this.game);
 }
 
 Core.prototype.process = function() {

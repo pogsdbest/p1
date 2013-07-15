@@ -37,7 +37,6 @@ public class TitleScreen extends DisplayScreen {
 		title.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				L.wtf("AAAAAAAAAAAA");
 				super.clicked(event, x, y);
 			}
 		});
@@ -54,7 +53,7 @@ public class TitleScreen extends DisplayScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				// TODO Auto-generated method stub
-				ScreenManager.getInstance().setScreen(TestScreen.class);
+				ScreenManager.getInstance().setScreen(MainMenuScreen.class);
 				super.clicked(event, x, y);
 			}
 		});
