@@ -8,6 +8,7 @@ import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.net.ServerSocket;
 import com.badlogic.gdx.net.ServerSocketHints;
 import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Disposable;
 import com.game.framework.utils.L;
 
@@ -28,7 +29,7 @@ public class NetworkServer implements Runnable,Disposable{
 	}
 	
 	public void startServer() {
-		if(thread!=null) {
+		if(thread==null) {
 			thread = new Thread(this);
 			thread.start();
 		}
@@ -37,13 +38,17 @@ public class NetworkServer implements Runnable,Disposable{
 	@Override
 	public void run() {
 		try{
+			L.wtf("Starting a new Server...");
 			ServerSocketHints hints = new ServerSocketHints();
+			hints.acceptTimeout = 0;
 			serverSocket = Gdx.net.newServerSocket(Protocol.TCP, port, hints);
+			isAcceptingClient = true;
 			L.wtf("Server start..");
 			L.wtf("port: "+port);
 			L.wtf("host: "+InetAddress.getLocalHost().getHostAddress());
 			while(isAcceptingClient) {
-				Socket socket = serverSocket.accept(null);
+				SocketHints hints2 = new SocketHints();
+				Socket socket = serverSocket.accept(hints2);
 				ClientConnection client = new ClientConnection(this,socket,callback);
 				L.wtf("Client connected: ");
 				clients.add(client);
