@@ -29,6 +29,7 @@ public class NetworkLobbyScreen extends DisplayScreen {
 		String servers[] = new String[]{"Server1","Server2"};
 		List list = new List(servers,skin);
 		
+		
 		Table table = new Table(skin);
 		table.debug();
 		table.debugTable();
