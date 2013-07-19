@@ -2,6 +2,9 @@ package com.game.framework.net;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.UnknownHostException;
+
+import javax.jws.Oneway;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -39,7 +42,9 @@ public class NetworkClient implements Runnable, Disposable {
 			thread.start();
 		} catch (Exception e) {
 			isConnected = false;
-			e.printStackTrace();
+			error("connection failed to host "+host);
+			callback.onEnd();
+			//e.printStackTrace();
 		}
 
 	}
@@ -88,11 +93,11 @@ public class NetworkClient implements Runnable, Disposable {
 	}
 
 	private void end() {
-		
+		callback.onEnd();
 	}
 
 	private void error(String txt) {
-		L.wtf(txt);
+		L.e(txt);
 		callback.onError();
 	}
 

@@ -109,6 +109,10 @@ public class Assets {
 		String text = "";
 
 		FileHandle handle = Gdx.files.external(fileName);
+		if(!handle.exists()) {
+			L.wtf(fileName+" doesn't exist.");
+			return new String[0];
+		}
 		text = handle.readString();
 
 		String part = "";

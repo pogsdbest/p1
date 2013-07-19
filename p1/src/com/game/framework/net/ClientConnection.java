@@ -83,7 +83,7 @@ public class ClientConnection implements Runnable, Disposable {
 	}
 	
 	public void error(String txt) {
-		L.wtf(txt);
+		L.e(txt);
 		callback.onError();
 	}
 	
