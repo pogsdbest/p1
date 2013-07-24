@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/p1-desktop/libs/gdx-backend-lwjgl-natives.jar"/>
 	<classpathentry kind="lib" path="/p1-desktop/libs/gdx-backend-lwjgl.jar" sourcepath="/p1-desktop/libs/gdx-backend-lwjgl-sources.jar"/>
 	<classpathentry kind="lib" path="/p1-desktop/libs/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="libs/json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

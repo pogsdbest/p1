@@ -2,9 +2,6 @@ package com.game.framework.net;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.UnknownHostException;
-
-import javax.jws.Oneway;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -42,15 +39,16 @@ public class NetworkClient implements Runnable, Disposable {
 			thread.start();
 		} catch (Exception e) {
 			isConnected = false;
-			error("connection failed to host "+host);
+			error("connection failed to host " + host);
 			callback.onEnd();
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
 
 	@Override
 	public void dispose() {
+		if(isConnected) isConnected = false;
 		try {
 			if (socket != null) {
 				inputStream.close();
@@ -58,14 +56,15 @@ public class NetworkClient implements Runnable, Disposable {
 				socket.dispose();
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
+		L.wtf("client dispose...");
 	}
 
 	@Override
 	public void run() {
 		try {
-			byte[] buffer  = new byte[1024];
+			byte[] buffer = new byte[1024];
 			while (isConnected()) {
 				buffer = new byte[1024];
 				inputStream.read(buffer);
@@ -79,8 +78,9 @@ public class NetworkClient implements Runnable, Disposable {
 			dispose();
 			end();
 		}
+		L.wtf("thread end...");
 	}
-	
+
 	public void sendData(byte[] data) {
 		try {
 			outputStream.write(data);

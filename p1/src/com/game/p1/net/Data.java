@@ -1,22 +1,48 @@
 package com.game.p1.net;
 
+import org.json.JSONObject;
+
 
 public class Data {
+	
+	public static final String TYPE = "T";
 
-	//key
-	public static final String KEY = "key";
-	//types of keys
-	public static final String MESSAGE_KEY = "msg";
-	public static final String LOGIN_KEY = "login";
-	public static final String MOVE_KEY = "mov";
-	public static final String ALL_PLAYER_DATA_KEY = "data";
+	private JSONObject object;
+
+	public Data(JSONObject object) {
+		this.object = object;
+	}
 	
-	//key attributes
-	public static final String TEXT = "txt";
-	public static final String USERNAME = "username";
-	public static final String SUCCESS = "success";
+	public Data(String type) {
+		try{
+		this.object = new JSONObject();
+		object.put(TYPE, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public JSONObject getJSON() {
+		return null;
+	}
 	
-	public static final String DIRECTION = "dir";
-	public static final String PLAYERS = "players";
+	public  String getString() {
+		return getJSON().toString();
+		
+	}
+	
+	public  byte[] getBytes() {
+		return getString().getBytes();
+	}
+	
+	public String getType() {
+		String type = "none";
+		try{
+			type = this.object.getString(TYPE);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return type;
+	}
 	
 }

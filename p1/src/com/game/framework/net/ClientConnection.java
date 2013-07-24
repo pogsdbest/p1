@@ -34,14 +34,15 @@ public class ClientConnection implements Runnable, Disposable {
 	public void dispose() {
 		try {
 			if (socket != null) {
-				socket.dispose();
 				inputStream.close();
 				outputStream.close();
+				socket.dispose();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			error("Error at dispose...");
 		}
+		L.wtf("client connection end...");
 	}
 
 	@Override
@@ -61,6 +62,7 @@ public class ClientConnection implements Runnable, Disposable {
 			dispose();
 			end();
 		}
+		L.wtf("thread end...");
 	}
 	
 	public void sendData(byte[] data) {

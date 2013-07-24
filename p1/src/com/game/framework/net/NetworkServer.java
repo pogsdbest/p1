@@ -20,11 +20,13 @@ public class NetworkServer implements Runnable,Disposable{
 	private boolean isAcceptingClient;
 	private ArrayList<ClientConnection> clients;
 	private ConnectionCallback callback;
+	private boolean isRunning;
 	
 	public NetworkServer(ConnectionCallback callback) {
 		this.callback = callback;
-		port = 8888;
+		port = 13456;
 		isAcceptingClient = false;
+		setRunning(false);
 		clients = new ArrayList<ClientConnection>();
 	}
 	
@@ -43,12 +45,12 @@ public class NetworkServer implements Runnable,Disposable{
 			hints.acceptTimeout = 0;
 			serverSocket = Gdx.net.newServerSocket(Protocol.TCP, port, hints);
 			isAcceptingClient = true;
+			setRunning(true);
 			L.wtf("Server start..");
 			L.wtf("port: "+port);
 			L.wtf("host: "+InetAddress.getLocalHost().getHostAddress());
-			while(isAcceptingClient) {
-				SocketHints hints2 = new SocketHints();
-				Socket socket = serverSocket.accept(hints2);
+			while(isAcceptingClient && isRunning) {
+				Socket socket = serverSocket.accept(null);
 				ClientConnection client = new ClientConnection(this,socket,callback);
 				L.wtf("Client connected: ");
 				clients.add(client);
@@ -87,6 +89,14 @@ public class NetworkServer implements Runnable,Disposable{
 				clients.remove(clientConnection);
 			}
 		}
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 
 }
