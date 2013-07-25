@@ -23,6 +23,7 @@ import com.game.framework.net.NetworkClient;
 import com.game.framework.net.NetworkServer;
 import com.game.framework.utils.L;
 import com.game.p1.net.Data;
+import com.game.p1.net.MessageData;
 import com.game.p1.net.PlayerData;
 import com.game.p1.utils.Assets;
 import com.game.p1.utils.Config;
@@ -35,6 +36,8 @@ public class NetworkLobbyScreen extends DisplayScreen {
 	private List serverInstanceList;
 	private List playerInstanceList;
 	private TextArea textArea;
+	
+	private boolean isServer;
 
 	public NetworkLobbyScreen() {
 		super(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
@@ -87,6 +90,7 @@ public class NetworkLobbyScreen extends DisplayScreen {
 				// TODO Auto-generated method stub
 				if (keycode == Keys.ENTER) {
 					textArea.append(messageField.getText());
+					send(messageField.getText());
 					messageField.setText("");
 				}
 				return super.keyDown(event, keycode);
@@ -116,6 +120,11 @@ public class NetworkLobbyScreen extends DisplayScreen {
 		table.add(sendButton).fill();
 
 		serverLobbyGroup.addActor(chatBoxGroup);
+	}
+
+	protected void send(String message) {
+		MessageData messageData = new MessageData();
+		
 	}
 
 	private void createMainLobby(Skin skin, Assets assets) {
@@ -150,7 +159,7 @@ public class NetworkLobbyScreen extends DisplayScreen {
 
 						@Override
 						public void onEnd() {
-
+							
 						}
 
 						@Override
@@ -261,6 +270,7 @@ public class NetworkLobbyScreen extends DisplayScreen {
 				server.startServer();
 				mainLobbyGroup.setVisible(false);
 				serverLobbyGroup.setVisible(true);
+				isServer = true;
 				super.clicked(event, x, y);
 			}
 		});
@@ -272,6 +282,7 @@ public class NetworkLobbyScreen extends DisplayScreen {
 
 							@Override
 							public void onUpdate(byte[] data) {
+								
 							}
 
 							@Override
@@ -293,6 +304,9 @@ public class NetworkLobbyScreen extends DisplayScreen {
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
+								mainLobbyGroup.setVisible(false);
+								serverLobbyGroup.setVisible(true);
+								isServer = false;
 							}
 						});
 				if (serverInstanceList.getItems().length > 0)
